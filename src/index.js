@@ -1,5 +1,4 @@
-// module.exports =
-function check(str, bracketsConfig) {
+module.exports = function check(str, bracketsConfig) {
   const stack = []; //only push & pop.
   const reverse = JSON.parse(JSON.stringify(bracketsConfig)).map((el) =>
     el.reverse()
@@ -24,12 +23,17 @@ function check(str, bracketsConfig) {
       if (isClosing(current) && isWasTheSameBracket === true) {
         isWasTheSameBracket = false;
         console.log(`${pairs[current]} !== ${stack[stack.length - 1]}`);
-        if (pairs[current] !== stack.pop()) return false;
+        if (pairs[current] !== stack.pop()) {
+          console.log(stack);
+          return false;
+        }
       } else {
         isWasTheSameBracket = true;
         stack.push(current);
+        console.log(stack);
       }
     } else {
+      console.log('2-f');
       if (isClosing(current)) {
         if (pairs[current] !== stack.pop()) return false;
       } else {
@@ -76,4 +80,4 @@ const config7 = [
 // console.log(check('((()))()', config1))
 // console.log(check('||||', config4));
 // console.log(check('111115611111111222288888822225577877778775555666677777777776622222', config6))
-console.log(check('7887', config6));
+// console.log(check('7887', config6));
