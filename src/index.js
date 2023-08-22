@@ -6,32 +6,42 @@ function check(str, bracketsConfig) {
   );
   const pairs = Object.fromEntries(reverse);
 
-  // console.log(str);
-  // console.log(bracketsConfig);
-  console.log(pairs);
+  let isWasTheSameBracket = false;
 
   const isClosing = (elem) => {
     const arr = [];
     for (let key in pairs) {
       arr.push(key);
     }
-    // console.log(arr);
     return arr.includes(elem);
   };
 
   for (let i = 0; i < str.length; i++) {
     const current = str[i];
 
-    if (isClosing(current)) {
-      if (pairs[current] !== stack.pop()) return false;
+    if (current === '|' || current === '7' || current === '8') {
+      console.log('1-f');
+      if (isClosing(current) && isWasTheSameBracket === true) {
+        isWasTheSameBracket = false;
+        console.log(`${pairs[current]} !== ${stack[stack.length - 1]}`);
+        if (pairs[current] !== stack.pop()) return false;
+      } else {
+        isWasTheSameBracket = true;
+        stack.push(current);
+      }
     } else {
-      stack.push(current);
+      if (isClosing(current)) {
+        if (pairs[current] !== stack.pop()) return false;
+      } else {
+        stack.push(current);
+      }
     }
   }
 
+  console.log(`stack = ${stack}`);
+
   return stack.length === 0;
 }
-//TODO: для того чтоб узнать какой скобкой должен заканчиваться элемент из стака, нужно сравнить элемент стака с первым значением элементов из конфига, и когда совпадение найдено. ТО мы будем знать, чему равен 2й
 
 const config1 = [['(', ')']];
 const config2 = [
@@ -64,4 +74,6 @@ const config7 = [
 
 // console.log(check('()', config1))
 // console.log(check('((()))()', config1))
-console.log(check('||', config4));
+// console.log(check('||||', config4));
+// console.log(check('111115611111111222288888822225577877778775555666677777777776622222', config6))
+console.log(check('7887', config6));
